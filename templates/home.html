@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d31">
+  <title>Modewise | Shopping mode insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="Modewise home">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span>modewise<span class="brand-period">.</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="nav-link is-active" href="{{ url_for('home') }}">Overview</a>
+      <a class="nav-cta" href="{{ url_for('predict') }}">Try a prediction <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="home-hero page-width">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> SHOPPER INSIGHTS / MODEL 01</p>
+        <h1>Every shopper has a <em>way</em> of choosing.</h1>
+        <p class="hero-lede">Explore how shopping habits, spending patterns and digital influences relate to a preference for online, in-store or mixed shopping.</p>
+        <a class="button-primary" href="{{ url_for('predict') }}">Get a shopping mode prediction <span aria-hidden="true">→</span></a>
+        <p class="hero-caption">A survey-based prediction prototype</p>
+      </div>
+      <aside class="mode-panel" aria-label="The three shopping modes this model predicts">
+        <div class="panel-topline"><span>THE OUTPUT</span><span class="panel-index">01 — 03</span></div>
+        <h2>One preference.<br>Three possible modes.</h2>
+        <div class="mode-list">
+          <div class="mode-row"><span class="mode-number">01</span><span class="mode-name">Online</span><span class="mode-symbol mode-symbol-online" aria-hidden="true">↗</span></div>
+          <div class="mode-row"><span class="mode-number">02</span><span class="mode-name">In-store</span><span class="mode-symbol mode-symbol-store" aria-hidden="true">⌂</span></div>
+          <div class="mode-row"><span class="mode-number">03</span><span class="mode-name">A mix of both</span><span class="mode-symbol mode-symbol-mix" aria-hidden="true">◫</span></div>
+        </div>
+        <p class="panel-footnote">The result reflects the model's best-fit class, not a certainty about an individual.</p>
+      </aside>
+    </section>
+
+    <section class="overview-band">
+      <div class="page-width overview-grid">
+        <div>
+          <p class="eyebrow eyebrow-dark">ABOUT THE PROJECT</p>
+          <h2 class="section-heading">From behavior<br>to a useful signal.</h2>
+        </div>
+        <div class="overview-detail">
+          <p>Modewise uses a trained machine-learning model to estimate a person's preferred shopping mode from survey details. Inputs include shopping frequency, preferred platforms, spending habits, payment methods, and responses to ads and reviews.</p>
+          <div class="steps-row">
+            <div class="step-item"><span class="step-index">01</span><span>Share shopping details</span></div>
+            <div class="step-item"><span class="step-index">02</span><span>Model evaluates patterns</span></div>
+            <div class="step-item"><span class="step-index">03</span><span>Review the predicted mode</span></div>
+          </div>
+          <p class="disclaimer"><strong>Research use:</strong> Predictions are estimates from survey data, not confirmed purchases or causal marketing effects. Avoid using them as the sole basis for customer decisions.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer page-width">
+    <a class="brand footer-brand" href="{{ url_for('home') }}"><span class="brand-mark" aria-hidden="true">M</span><span>modewise<span class="brand-period">.</span></span></a>
+    <span>Shopping behavior, thoughtfully interpreted.</span>
+  </footer>
+</body>
+</html>

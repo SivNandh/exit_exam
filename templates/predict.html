@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173d31">
+  <title>Predict a shopping mode | Modewise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="Modewise home">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span>modewise<span class="brand-period">.</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="nav-link" href="{{ url_for('home') }}">Overview</a>
+      <a class="nav-cta" href="{{ url_for('predict') }}" aria-current="page">Prediction <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main class="page-width prediction-main">
+    <div class="prediction-heading">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> SHOPPER PROFILE / PREDICTION</p>
+      <h1>How do you like to shop?</h1>
+      <p class="hero-lede">Add the details you know. Leave the rest blank. The model will estimate a preferred shopping mode.</p>
+    </div>
+
+    {% if error %}
+      <div class="notice notice-error" role="alert"><span class="notice-icon" aria-hidden="true">!</span><p>{{ error }}</p></div>
+    {% endif %}
+
+    {% if prediction %}
+      <section class="result-panel" aria-live="polite" aria-label="Prediction result">
+        <div class="result-copy">
+          <p class="eyebrow eyebrow-dark">PREDICTED SHOPPING MODE</p>
+          <h2>{{ prediction.label }}</h2>
+          <p>Based on the shopping details provided, this is the mode selected by the trained model.</p>
+        </div>
+        <span class="result-stamp" aria-hidden="true">{{ prediction.class }}</span>
+      </section>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('predict') }}" class="prediction-form">
+      {% for section in sections %}
+        <section class="form-section">
+          <div class="form-section-heading">
+            <span class="section-marker">{{ "%02d"|format(loop.index) }}</span>
+            <div><h2>{{ section.title }}</h2><p>{{ section.description }}</p></div>
+          </div>
+          <div class="field-grid">
+            {% for field in section.fields %}
+              <div class="field">
+                <label for="{{ field.key }}">{{ field.label }}</label>
+                {% if field.options %}
+                  <select id="{{ field.key }}" name="{{ field.key }}">
+                    <option value="">Choose an option</option>
+                    {% for option in field.options %}
+                      <option value="{{ option }}" {% if form_values.get(field.key) == option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                  </select>
+                {% elif field.kind == "number" %}
+                  <input id="{{ field.key }}" name="{{ field.key }}" type="number" min="{{ field.min }}" max="{{ field.max }}" step="{{ field.step }}" value="{{ form_values.get(field.key, '') }}" placeholder="Not provided">
+                {% else %}
+                  <input id="{{ field.key }}" name="{{ field.key }}" type="text" value="{{ form_values.get(field.key, '') }}" placeholder="{{ field.placeholder }}" autocomplete="off">
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+
+      <div class="form-actions">
+        <p>Your details are used only to generate this prediction.</p>
+        <button class="button-primary" type="submit">Predict shopping mode <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer page-width">
+    <a class="brand footer-brand" href="{{ url_for('home') }}"><span class="brand-mark" aria-hidden="true">M</span><span>modewise<span class="brand-period">.</span></span></a>
+    <span>Estimates from survey data, not purchase guarantees.</span>
+  </footer>
+</body>
+</html>
